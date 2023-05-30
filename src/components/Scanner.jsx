@@ -5,7 +5,7 @@ const Scanner = () => {
   const [keys, setKeys] = useState(null);
   const [sig, setSig] = useState(null)
 
-  console.log(keys.primaryPublicKeyRaw)
+  console.log(keys?.primaryPublicKeyRaw)
 
   return (
     <>
