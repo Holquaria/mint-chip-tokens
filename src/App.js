@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Scanner from './components/scan';
+import Scanner from './components/Scanner';
 
 function App() {
   return (

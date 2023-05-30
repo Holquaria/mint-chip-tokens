@@ -5,6 +5,8 @@ const Scanner = () => {
   const [keys, setKeys] = useState(null);
   const [sig, setSig] = useState(null)
 
+  console.log(keys.address)
+
   return (
     <>
       <button
@@ -16,6 +18,7 @@ const Scanner = () => {
       >
         Click Me To Initiate Scan
       </button>
+      {keys && <p>{keys}</p>}
       <button
         onClick={() => {
           getSignatureFromScan({
