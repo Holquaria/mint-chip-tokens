@@ -5,7 +5,7 @@ const Scanner = () => {
   const [keys, setKeys] = useState(null);
   const [sig, setSig] = useState(null)
 
-  console.log(keys)
+  console.log(keys.primaryPublicKeyRaw)
 
   return (
     <>
@@ -18,7 +18,7 @@ const Scanner = () => {
       >
         Click Me To Initiate Scan
       </button>
-      {keys && <p>{keys}</p>}
+      {keys && <p>{keys.primaryPublicKeyRaw}</p>}
       <button
         onClick={() => {
           getSignatureFromScan({
