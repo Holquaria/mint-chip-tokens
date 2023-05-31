@@ -1,6 +1,7 @@
 import { getPublicKeysFromScan, getSignatureFromScan } from 'pbt-chip-client/kong';
 import { useState } from 'react';
 import { ethers } from 'ethers';
+import abi from '../data/testAbi.json'
 
 
 const Scanner = () => {
@@ -16,7 +17,6 @@ const Scanner = () => {
     let wallet = new ethers.Wallet("0x8a07d0f3b83102cbfff76c2b66adfeff3c7e37ebcd5d0c9fa54c0086cf810697", provider)
     
     const contractAddress = '0xd10820b5328364308Dd0Ec961c7A2a4E15938549';
-    const abi = await getAbi()
     const contract = new ethers.Contract(contractAddress, abi, wallet);
   
   try {
@@ -31,8 +31,8 @@ const Scanner = () => {
     try {
       const response = await fetch('../data/abi.json');
       const data = await response.json();
-      console.log(data)
-      return data;
+      console.log(data.abi)
+      return data.abi;
     } catch (err) {
       console.log('error in fetching ABI:', err.message)
     }
