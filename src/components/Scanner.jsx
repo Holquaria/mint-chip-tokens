@@ -31,8 +31,8 @@ const Scanner = () => {
     try {
       const response = await fetch('../data/abi.json');
       const data = await response.json();
-      console.log(data.abi)
-      return data.abi;
+      console.log(data)
+      return data;
     } catch (err) {
       console.log('error in fetching ABI:', err.message)
     }
