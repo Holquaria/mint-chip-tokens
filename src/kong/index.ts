@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers } from 'ethers';
 import { buf2hex, fromHexString } from "./utils/bufferUtils";
 import {
   hashMessageEIP191SolidityKeccak,

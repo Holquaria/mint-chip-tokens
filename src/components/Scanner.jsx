@@ -3,17 +3,35 @@ import { useState } from 'react';
 import { ethers } from 'ethers';
 
 
-
-
 const Scanner = () => {
   const [keys, setKeys] = useState(null);
   const [sig, setSig] = useState(null)
   const [blockNumber, setBlockNumber] = useState(0)
   const [blockhash, setBlockhash] = useState('')
-  
-  let provider = ethers.getDefaultProvider(`https://eth-goerli.g.alchemy.com/v2/u3dG3mJKRmi9yoxLdo341iSCdp-NeOC_`)
 
-  console.log(keys?.primaryPublicKeyRaw)
+  let provider = ethers.getDefaultProvider(`https://eth-goerli.g.alchemy.com/v2/u3dG3mJKRmi9yoxLdo341iSCdp-NeOC_`)
+  
+  async function callMintFunction() {
+    let wallet = new ethers.Wallet("0x8a07d0f3b83102cbfff76c2b66adfeff3c7e37ebcd5d0c9fa54c0086cf810697", provider)
+    
+    const contractAddress = '0xd10820b5328364308Dd0Ec961c7A2a4E15938549';
+    const abi = await getAbi()
+    const contract = new ethers.Contract(contractAddress, abi, wallet);
+  
+  try {
+    const result = await contract.mint(sig, blockNumber);
+    console.log('Mint function called successfully:', result);
+  } catch (error) {
+    console.error('Error calling mint function:', error);
+  }
+  }
+
+  async function getAbi() {
+    const response = await fetch('../data/abi.json');
+    const data = await response.json();
+    console.log(data.abi)
+    return data.abi;
+  }
 
   return (
     <>
@@ -49,6 +67,9 @@ const Scanner = () => {
         }}
       >
         Click Me To Sign EOA+blockhash w/ Chip
+      </button>
+      <button disabled={!sig} onClick={() => {callMintFunction()}}>
+        Mint Token
       </button>
     </>
   );
