@@ -12,6 +12,7 @@ const Scanner = () => {
   let provider = ethers.getDefaultProvider(`https://eth-goerli.g.alchemy.com/v2/u3dG3mJKRmi9yoxLdo341iSCdp-NeOC_`)
   
   async function callMintFunction() {
+    console.log('minting...')
     let wallet = new ethers.Wallet("0x8a07d0f3b83102cbfff76c2b66adfeff3c7e37ebcd5d0c9fa54c0086cf810697", provider)
     
     const contractAddress = '0xd10820b5328364308Dd0Ec961c7A2a4E15938549';
@@ -27,10 +28,14 @@ const Scanner = () => {
   }
 
   async function getAbi() {
-    const response = await fetch('../data/abi.json');
-    const data = await response.json();
-    console.log(data.abi)
-    return data.abi;
+    try {
+      const response = await fetch('../data/abi.json');
+      const data = await response.json();
+      console.log(data.abi)
+      return data.abi;
+    } catch (err) {
+      console.log('error in fetching ABI:', err.message)
+    }
   }
 
   return (
