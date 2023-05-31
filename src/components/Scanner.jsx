@@ -9,6 +9,7 @@ const Scanner = () => {
   const [sig, setSig] = useState(null)
   const [blockNumber, setBlockNumber] = useState(0)
   const [blockhash, setBlockhash] = useState('')
+  const [mintStatus, setMintStatus] = useState('')
 
   let provider = ethers.getDefaultProvider(`https://eth-goerli.g.alchemy.com/v2/u3dG3mJKRmi9yoxLdo341iSCdp-NeOC_`)
   
@@ -24,20 +25,12 @@ const Scanner = () => {
   try {
     const result = await contract.mint(sig, blockNumber);
     console.log('Mint function called successfully:', result);
+    setMintStatus('Success! :)')
+    
   } catch (error) {
     console.error('Error calling mint function:', error);
+    setMintStatus('Failure :(')
   }
-  }
-
-  async function getAbi() {
-    try {
-      const response = await fetch('../data/abi.json');
-      const data = await response.json();
-      console.log(data.abi)
-      return data.abi;
-    } catch (err) {
-      console.log('error in fetching ABI:', err.message)
-    }
   }
 
   return (
@@ -78,6 +71,7 @@ const Scanner = () => {
       <button disabled={!sig} onClick={() => {callMintFunction()}}>
         Mint Token
       </button>
+
     </>
   );
 }
