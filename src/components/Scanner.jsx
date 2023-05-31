@@ -21,7 +21,7 @@ const Scanner = () => {
         onClick={() => {
           getPublicKeysFromScan().then((keys) => {
             setKeys(keys);
-            return provider.getBlockNumber() - 1;
+            return provider.getBlockNumber();
           }).then((blockNumberUsedInSig) => {
             console.log('setting block number', blockNumberUsedInSig)
             setBlockNumber(blockNumberUsedInSig)
