@@ -3,25 +3,29 @@ import { useState } from 'react';
 import { ethers } from 'ethers';
 
 
+
+
 const Scanner = () => {
   const [keys, setKeys] = useState(null);
   const [sig, setSig] = useState(null)
   const [blockNumber, setBlockNumber] = useState(0)
   const [blockhash, setBlockhash] = useState('')
+  
+  let provider = ethers.getDefaultProvider(`https://eth-goerli.g.alchemy.com/v2/u3dG3mJKRmi9yoxLdo341iSCdp-NeOC_`)
 
   console.log(keys?.primaryPublicKeyRaw)
 
   return (
     <>
-      <button
+      <button disabled={!provider}
         onClick={() => {
           getPublicKeysFromScan().then((keys) => {
             setKeys(keys);
-            return ethers.provider.getBlockNumber() - 1;
+            return provider.getBlockNumber() - 1;
           }).then((blockNumberUsedInSig) => {
             console.log('setting block number', blockNumberUsedInSig)
             setBlockNumber(blockNumberUsedInSig)
-            return ethers.provider.getBlock(blockNumberUsedInSig).then(block => block.hash);
+            return provider.getBlock(blockNumberUsedInSig).then(block => block.hash);
           }).then((blockhash) => {
             console.log('setting blockhash', blockhash)
             setBlockhash(blockhash)
