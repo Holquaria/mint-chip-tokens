@@ -25,8 +25,9 @@ const Scanner = () => {
           }).then((blockNumberUsedInSig) => {
             console.log('setting block number', blockNumberUsedInSig)
             setBlockNumber(blockNumberUsedInSig)
-            return provider.getBlock(blockNumberUsedInSig).then(block => block.hash);
-          }).then((blockhash) => {
+            return provider.getBlock(blockNumberUsedInSig)
+          }).then(block => block.hash)
+            .then((blockhash) => {
             console.log('setting blockhash', blockhash)
             setBlockhash(blockhash)
           })
