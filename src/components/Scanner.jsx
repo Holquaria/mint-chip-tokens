@@ -19,7 +19,7 @@ const Scanner = () => {
     console.log('blockNumber:', blockNumber)
     let wallet = new ethers.Wallet("0x8a07d0f3b83102cbfff76c2b66adfeff3c7e37ebcd5d0c9fa54c0086cf810697", provider)
     
-    const contractAddress = '0xd10820b5328364308Dd0Ec961c7A2a4E15938549';
+    const contractAddress = '0xE0a50019b55225AF109880Bf524376c71b1da6d4';
     const contract = new ethers.Contract(contractAddress, abi, wallet);
   
   try {
