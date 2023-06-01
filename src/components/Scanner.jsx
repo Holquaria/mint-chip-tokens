@@ -71,7 +71,7 @@ const Scanner = () => {
       <button disabled={!sig} onClick={() => {callMintFunction()}}>
         Mint Token
       </button>
-
+      {mintStatus && <p>{mintStatus}</p>}
     </>
   );
 }
