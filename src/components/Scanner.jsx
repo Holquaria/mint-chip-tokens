@@ -40,11 +40,11 @@ const Scanner = () => {
           getPublicKeysFromScan().then(async (keys) => {
             setKeys(keys);
             return await provider.getBlockNumber() - 1
-          }).then((blockNumberUsedInSig) => {
+          }).then(async (blockNumberUsedInSig) => {
 
             console.log('setting block number', blockNumberUsedInSig)
             setBlockNumber(blockNumberUsedInSig)
-            return provider.getBlock(blockNumberUsedInSig)
+            return await provider.getBlock(blockNumberUsedInSig)
           }).then(block => block.hash)
             .then((blockhash) => {
             console.log('setting blockhash', blockhash)
