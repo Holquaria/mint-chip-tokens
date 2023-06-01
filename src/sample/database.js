@@ -7,6 +7,18 @@ const graphQLClient = new GraphQL.GraphQLClient(process.env.HASURA_ENDPOINT, {
 	}
 })
 
+/*
+example args:
+
+saveDesktopRequest({
+    blockNumber: 123,
+    chipSignature: '0x123',
+    wallet_address: '0x123',
+    pbt_contract_address: '0x456'
+});
+
+*/
+
 export const saveDesktopRequest = async (args) => {
     const {blockNumber, chipSignature, pbt_contract_address, wallet_address} = args;
 
@@ -29,6 +41,16 @@ export const saveDesktopRequest = async (args) => {
     const response = await graphQLClient.request(query, variables, null);
     return response;
 }
+
+/*
+example args:
+
+getDesktopRequests({
+    wallet_address: '0x123',
+    pbt_contract_address: '0x456'
+});
+
+*/
 
 export const getDesktopRequests = async (args) => {
     const {wallet_address, pbt_contract_address} = args;
