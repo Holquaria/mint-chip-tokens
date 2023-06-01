@@ -37,10 +37,11 @@ const Scanner = () => {
     <>
       <button disabled={!provider}
         onClick={() => {
-          getPublicKeysFromScan().then((keys) => {
+          getPublicKeysFromScan().then(async (keys) => {
             setKeys(keys);
-            return provider.getBlockNumber();
+            return await provider.getBlockNumber() - 1
           }).then((blockNumberUsedInSig) => {
+
             console.log('setting block number', blockNumberUsedInSig)
             setBlockNumber(blockNumberUsedInSig)
             return provider.getBlock(blockNumberUsedInSig)
