@@ -2,35 +2,62 @@ import { getPublicKeysFromScan, getSignatureFromScan } from 'pbt-chip-client/kon
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import abi from '../data/testAbi.json'
+import 'dotenv/config'; 
 
-
-const Scanner = () => {
+const Scanner = ({provider, walletAddress}) => {
   const [keys, setKeys] = useState(null);
   const [sig, setSig] = useState(null)
   const [blockNumber, setBlockNumber] = useState(0)
   const [blockhash, setBlockhash] = useState('')
   const [mintStatus, setMintStatus] = useState('')
+  const [chipAddress, setChipAddress] = useState('')
+  const [chipTokenId, setChipTokenId] = useState(0)
 
-  let provider = ethers.getDefaultProvider(`https://eth-goerli.g.alchemy.com/v2/u3dG3mJKRmi9yoxLdo341iSCdp-NeOC_`)
+  console.log('secret:', process.env.PRIVATE_KEY)
+
+  async function getChipStatus() {
+    let signer = new ethers.Wallet(walletAddress, provider)
+
+    setChipAddress(ethers.computeAddress("0x" + keys["primaryPublicKeyRaw"]))
+    
+    const contractAddress = '0xE0a50019b55225AF109880Bf524376c71b1da6d4';
+    const contract = new ethers.Contract(process.env.PRIVATE_KEY, abi, signer);
+  
+    try {
+      const result = await contract.tokenIsMappedFor(chipAddress)
+      setChipTokenId(result)
+      
+      const owner = await contract.ownerOf(chipTokenId)
+      if (owner === chipAddress) {
+        console.log('you are the owner')
+      } else {
+        console.log('send user to desktop site/prompt connect wallet')
+      }
+      
+    } catch (error) {
+      console.error('Blockchain token not found:', error);
+      console.log('token has not been minted, connect wallet to proceed')
+    }
+  }
   
   async function callMintFunction() {
     console.log('minting...')
     console.log('sig:', sig)
     console.log('blockNumber:', blockNumber)
-    let wallet = new ethers.Wallet("0x8a07d0f3b83102cbfff76c2b66adfeff3c7e37ebcd5d0c9fa54c0086cf810697", provider)
+    let signer = new ethers.Wallet(walletAddress, provider)
     
     const contractAddress = '0xE0a50019b55225AF109880Bf524376c71b1da6d4';
-    const contract = new ethers.Contract(contractAddress, abi, wallet);
+    const contract = new ethers.Contract(contractAddress, abi, signer);
   
-  try {
-    const result = await contract.mint(sig, blockNumber);
-    console.log('Mint function called successfully:', result);
-    setMintStatus('Success! :)')
-    
-  } catch (error) {
-    console.error('Error calling mint function:', error);
-    setMintStatus('Failure :(')
-  }
+    try {
+      const result = await contract.mint(sig, blockNumber);
+      console.log('Mint function called successfully:', result);
+      setMintStatus('Success! :)')
+      
+    } catch (error) {
+      console.error('Error calling mint function:', error);
+      setMintStatus('Failure :(')
+    }
   }
 
   return (
@@ -49,6 +76,8 @@ const Scanner = () => {
             .then((blockhash) => {
             console.log('setting blockhash', blockhash)
             setBlockhash(blockhash)
+          }).then(() => {
+            getChipStatus()
           })
         }}
       >
