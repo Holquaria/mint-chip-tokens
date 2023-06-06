@@ -9,7 +9,7 @@ function App() {
   const [connected, setConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
 
-  let provider = ethers.getDefaultProvider(`https://eth-goerli.g.alchemy.com/v2/u3dG3mJKRmi9yoxLdo341iSCdp-NeOC_`)
+  let provider = ethers.getDefaultProvider(`https://eth-goerli.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`)
 
   
 
