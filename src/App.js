@@ -16,10 +16,10 @@ function App() {
 
 
   return (
-    <>
+    <div className='App'>
       <Header provider={provider} connected={connected} setConnected={setConnected} walletAddress={walletAddress} setWalletAddress={setWalletAddress} />
       <Scanner provider={provider} walletAddress={walletAddress} />
-    </>
+    </div>
   );
 }
 

@@ -1,9 +1,8 @@
-import 'dotenv/config'; 
 import * as GraphQL from 'graphql-request';
 
-const graphQLClient = new GraphQL.GraphQLClient(process.env.HASURA_ENDPOINT, {
+const graphQLClient = new GraphQL.GraphQLClient(process.env.REACT_APP_HASURA_ENDPOINT, {
 	headers: {
-		'x-hasura-admin-secret': process.env.HASURA_GRAPHQL_ADMIN_SECRET
+		'x-hasura-admin-secret': process.env.REACT_APP_HASURA_GRAPHQL_ADMIN_SECRET
 	}
 })
 
@@ -37,9 +36,13 @@ export const saveDesktopRequest = async (args) => {
     pbt_contract_address,
     wallet_address
   }
-
+  try {
     const response = await graphQLClient.request(query, variables, null);
     return response;
+  } catch (err) {
+    console.log('error:', err)
+    return err
+  }
 }
 
 /*
